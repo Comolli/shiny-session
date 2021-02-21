@@ -1,6 +1,9 @@
 package session
 
 import (
+	"fmt"
+	"hash/fnv"
+	"net/http"
 	"sync"
 	"time"
 )
@@ -15,4 +18,17 @@ type Session struct {
 	lastUserAgentHash uint64                 // A hash of the remote user agent string of the last request. If 0, it will not be compared.
 	referenceID       string                 // If this session's ID was replaced, this is the ID of the newer session.
 	data              map[string]interface{} // Any custom data stored in the session.
+}
+
+func Start(response http.ResponseWriter, request *http.Request, createIfNew bool) (*Session, error) {
+	// We may need this hash later.
+	var agentHash uint64
+	hash := fnv.New64a()
+	userAgent := request.Header.Get("User-Agent")
+	if userAgent != "" {
+		fmt.Fprint(hash, userAgent)
+		agentHash = hash.Sum64()
+	}
+	//todo
+	return
 }
