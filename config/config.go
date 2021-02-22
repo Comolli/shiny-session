@@ -29,4 +29,8 @@ var (
 	}
 	MaxSessionCacheSize = 1024 * 1024
 	SessionCacheExpiry  = time.Hour
+
+	MutexMaxCacheSize     = 1024 * 1024
+	MutexCleanupFrequency = 10 * time.Minute
+	MutexStaleMutexes     = time.Hour
 )
